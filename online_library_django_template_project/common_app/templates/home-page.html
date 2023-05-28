@@ -38,7 +38,7 @@
                 <h3>{{ book.title }}</h3>
                 <p>Type: {{ book.type }}</p>
                 <p class="img"><img src="{{ book.image.url }}" alt=""></p>
-                <a class="button" href="#">Details</a>
+                <a class="button" href="{% url 'details-book' pk=book.id %}">Details</a>
             </li>
             {% endfor %}
         </ul>
