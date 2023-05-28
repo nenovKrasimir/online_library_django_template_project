@@ -10,69 +10,59 @@
 </head>
 
 <body>
-{% if profile %}
-    <div id="container">
+<div id="container">
     <header id="site-header">
 
         <!-- Navigation -->
         <nav class="navbar">
             <section class="navbar-dashboard">
-                <a href="#">Dashboard</a>
-                <div id="user">
-                    <span>Welcome, Peter</span>
-                    <a class="button" href="#">Add Book</a>
-                    <a class="button" href="#">Profile</a>
-                </div>
+                <a href="{% url 'home-page' %}">Dashboard</a>
+                {% if profile %}
+                    <div id="user">
+                        <span>Welcome, {{ profile.first_name }}</span>
+                        <a class="button" href="{% url 'add-book' %}">Add Book</a>
+                        <a class="button" href="#">Profile</a>
+                    </div>
+                {% endif %}
             </section>
         </nav>
     </header>
-
-    <!-- Dashboard Page-->
+    {% block content %}
+    {% if profile %}
     <section id="dashboard-page" class="dashboard">
         <h1>Dashboard</h1>
         {% if books %}
+        <ul class="my-books-list">
             {% for book in books %}
-                <ul class="my-books-list">
-                    <li class="myBooks">
-                        <h3>{{ book.title }}</h3>
-                        <p>Type: {{ book.type }}</p>
-                        <p class="img"><img src="{{ book.image.url }}"
-                                            alt="">
-                        </p>
-                        <a class="button" href="#">Details</a>
-                    </li>
-                </ul>
+            <li class="myBooks">
+                <h3>{{ book.title }}</h3>
+                <p>Type: {{ book.type }}</p>
+                <p class="img"><img src="{{ book.image.url }}" alt=""></p>
+                <a class="button" href="#">Details</a>
+            </li>
             {% endfor %}
+        </ul>
         {% endif %}
     </section>
-{% else %}
-
-    <div id="container">
-    <header id="site-header">
-
-        <!-- Navigation -->
-        <nav class="navbar">
-            <section class="navbar-dashboard">
-                <a href="#">Dashboard</a>
-            </section>
-        </nav>
-    </header>
+    {% else %}
     <section id="register-page" class="register">
-        <form id="register-form" action="" method="">
+        <form method="post" enctype="multipart/form-data">
             <fieldset>
                 <legend>Profile Form</legend>
+                {% csrf_token %}
                 {{ form }}
                 <input class="button submit" type="submit" value="Enter">
             </fieldset>
         </form>
     </section>
-{% endif %}
-
+    {% endif %}
+    {% endblock %}
 </div>
+
 <footer id="site-footer">
     <p>Python Web Basics Retake Exam @SoftUni</p>
 </footer>
-</div>
+
 </body>
 
 </html>

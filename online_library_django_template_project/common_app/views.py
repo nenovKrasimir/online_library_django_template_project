@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from online_library_django_template_project.profile_app.forms import CreateProfileForm
 from online_library_django_template_project.profile_app.models import UserProfile
@@ -6,10 +6,17 @@ from online_library_django_template_project.profile_app.models import UserProfil
 
 def home_page(request):
     profile = UserProfile.objects.first()
-    books = ""
+    form = CreateProfileForm(None)
+    context = {'profile': profile, 'form': form}
+
+    if request.method == "POST":
+        form = CreateProfileForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('home-page')
+
     if profile:
         books = profile.books.all()
+        context['books'] = books
 
-    form = CreateProfileForm(request.POST or None)
-    context = {'profile': profile, 'form': form, 'books': books}
     return render(request=request, template_name='home-page.html', context=context)
