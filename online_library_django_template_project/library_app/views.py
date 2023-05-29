@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.views import View
 
 from online_library_django_template_project.library_app.forms import UploadBookForm, EditBookForm
 from online_library_django_template_project.library_app.models import Book
@@ -6,20 +7,23 @@ from online_library_django_template_project.profile_app.models import UserProfil
 
 
 # Create your views here.
+class AddBookView(View):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.profile = UserProfile.objects.first()
 
-def add_book(request):
-    form = UploadBookForm()
-    context = {'form': form, 'profile': UserProfile.objects.first()}
+    def get(self, request):
+        form = UploadBookForm()
+        context = {'form': form, 'profile': self.profile}
+        return render(request=request, template_name='add-book.html', context=context)
 
-    if request.method == "POST":
+    def post(self, request):
         form = UploadBookForm(request.POST, request.FILES)
         if form.is_valid():
             book = form.save(commit=False)
-            book.user = UserProfile.objects.first()
+            book.user = self.profile
             book.save()
             return redirect('home-page')
-
-    return render(request=request, template_name='add-book.html', context=context)
 
 
 def details_book(request, pk):
