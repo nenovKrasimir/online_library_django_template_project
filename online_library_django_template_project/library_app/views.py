@@ -43,3 +43,9 @@ def edit_book(request, pk):
             return redirect('home-page')
 
     return render(request=request, template_name='edit-book.html', context=context)
+
+
+def delete_book(request, pk):
+    book = Book.objects.filter(id=pk).first()
+    book.delete()
+    return redirect('home-page')
