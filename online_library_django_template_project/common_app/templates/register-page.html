@@ -1,0 +1,13 @@
+{% extends 'home-page.html' %}
+{% block content %}
+    <section id="register-page" class="register">
+        <form method="post" enctype="multipart/form-data">
+            <fieldset>
+                <legend>Profile Form</legend>
+                {% csrf_token %}
+                {{ form }}
+                <input class="button submit" type="submit" value="Enter">
+            </fieldset>
+        </form>
+    </section>
+{% endblock %}

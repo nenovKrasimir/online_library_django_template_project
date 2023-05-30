@@ -28,35 +28,21 @@
         </nav>
     </header>
     {% block content %}
-    {% if profile %}
-    <section id="dashboard-page" class="dashboard">
-        <h1>Dashboard</h1>
-        {% if books %}
-        <ul class="my-books-list">
-            {% for book in books %}
-            <li class="myBooks">
-                <h3>{{ book.title }}</h3>
-                <p>Type: {{ book.type }}</p>
-                <p class="img"><img src="{{ book.image.url }}" alt=""></p>
-                <a class="button" href="{% url 'details-book' pk=book.id %}">Details</a>
-            </li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-    </section>
-    {% else %}
-    <section id="register-page" class="register">
-        <form method="post" enctype="multipart/form-data">
-            <fieldset>
-                <legend>Profile Form</legend>
-                {% csrf_token %}
-                {{ form }}
-                {{ form.error_messages }}
-                <input class="button submit" type="submit" value="Enter">
-            </fieldset>
-        </form>
-    </section>
-    {% endif %}
+        <section id="dashboard-page" class="dashboard">
+            <h1>Dashboard</h1>
+            {% if books %}
+                <ul class="my-books-list">
+                    {% for book in books %}
+                        <li class="myBooks">
+                            <h3>{{ book.title }}</h3>
+                            <p>Type: {{ book.type }}</p>
+                            <p class="img"><img src="{{ book.image.url }}" alt=""></p>
+                            <a class="button" href="{% url 'details-book' pk=book.id %}">Details</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </section>
     {% endblock %}
 </div>
 
