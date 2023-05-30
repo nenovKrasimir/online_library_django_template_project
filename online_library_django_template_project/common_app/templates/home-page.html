@@ -51,6 +51,7 @@
                 <legend>Profile Form</legend>
                 {% csrf_token %}
                 {{ form }}
+                {{ form.error_messages }}
                 <input class="button submit" type="submit" value="Enter">
             </fieldset>
         </form>
