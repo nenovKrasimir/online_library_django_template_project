@@ -15,3 +15,10 @@ class CreateUserForm(UserCreationForm):
         self.fields['password2'].help_text = 'Passwords must match'
         self.fields['username'].help_text = 'Min length: 3 symbols, Max length: 50 symbols.'
         self.fields['email'].help_text = 'Please enter an valid email address'
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        if commit:
+            user.save()
+            UserProfile.objects.create(user=user, first_name=user.username)  # Create a UserProfile for the user
+        return user

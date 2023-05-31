@@ -3,11 +3,13 @@
     <section id="login-page" class="login">
         <form method="post" enctype="multipart/form-data">
             <fieldset>
-                <legend>Profile Form</legend>
+                <legend>Login Form</legend>
                 {% csrf_token %}
                 {{ form }}
                 <input class="button submit" type="submit" value="Enter">
+                <p>Don't have an account? <a href="{% url 'register-page' %}">Register</a></p>
             </fieldset>
         </form>
+
     </section>
 {% endblock %}

@@ -22,7 +22,7 @@ def register_page(request):
         form = CreateUserForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('home-page')
+            return redirect('login-page')
 
     return render(request=request, template_name='register-page.html', context=context)
 
