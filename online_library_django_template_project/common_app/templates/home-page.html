@@ -21,7 +21,7 @@
                     <div id="user">
                         <span>Welcome, {{ profile.first_name }}</span>
                         <a class="button" href="{% url 'add-book' %}">Add Book</a>
-                        <a class="button" href="{% url 'details-profile' %}">Profile</a>
+                        <a class="button" href="{% url 'details-profile' pk=profile.id %}">Profile</a>
                     </div>
                 {% endif %}
             </section>

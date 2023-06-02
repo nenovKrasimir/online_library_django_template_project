@@ -1,8 +1,10 @@
+from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
+from django.views.generic import DetailView, UpdateView, DeleteView
 
 from online_library_django_template_project.profile_app.forms import CreateUserForm, EditUserForm
 from online_library_django_template_project.profile_app.models import UserProfile
-
 
 # Create your views here.
 from django.shortcuts import render, redirect
@@ -12,44 +14,35 @@ from online_library_django_template_project.profile_app.forms import CreateUserF
 from online_library_django_template_project.profile_app.models import UserProfile
 
 
-class ProfileDetailView(View):
-    def get(self, request):
-        profile = UserProfile.objects.first()
-        context = {'profile': profile}
-        return render(request=request, template_name='profile.html', context=context)
+class ProfileDetailView(DetailView):
+    model = UserProfile
+    template_name = 'profile.html'
+    context_object_name = 'profile'
 
 
-class ProfileEditView(View):
-    def get(self, request):
-        profile = UserProfile.objects.first()
-        form = EditUserForm(instance=profile)
-        context = {'profile': profile, 'form': form}
-        return render(request=request, template_name='edit-profile.html', context=context)
+class ProfileEditView(UpdateView):
+    model = UserProfile
+    form_class = EditUserForm
+    template_name = 'edit-profile.html'
 
-    def post(self, request):
-        profile = UserProfile.objects.first()
-        form = EditUserForm(request.POST, request.FILES, instance=profile)
+    def get_object(self, queryset=None):
+        return self.request.user.userprofile
 
-        if form.is_valid():
-            form.save()
-            return redirect('details-profile')
-
-        context = {'profile': profile, 'form': form}
-        return render(request=request, template_name='edit-profile.html', context=context)
+    def get_success_url(self):
+        return reverse_lazy('details-profile', kwargs={'pk': self.object.pk})
 
 
-class ProfileDeleteView(View):
-    def get(self, request):
-        profile = UserProfile.objects.first()
-        form = CreateUserForm(instance=profile)
+class ProfileDeleteView(DeleteView):
+    model = UserProfile
+    template_name = 'delete-profile.html'
+    success_url = reverse_lazy('home-page')
 
+    def get_object(self, queryset=None):
+        return self.request.user
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = EditUserForm(instance=self.request.user.userprofile)
         for field in form.fields.values():
             field.widget.attrs['disabled'] = 'disabled'
-
-        context = {'profile': profile, 'form': form}
-        return render(request=request, template_name='delete-profile.html', context=context)
-
-    def post(self, request):
-        profile = UserProfile.objects.first()
-        profile.delete()
-        return redirect('home-page')
+        return self.render_to_response(self.get_context_data(form=form))
