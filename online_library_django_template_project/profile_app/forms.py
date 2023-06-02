@@ -22,3 +22,9 @@ class CreateUserForm(UserCreationForm):
             user.save()
             UserProfile.objects.create(user=user, first_name=user.username)  # Create a UserProfile for the user
         return user
+
+
+class EditUserForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = "__all__"

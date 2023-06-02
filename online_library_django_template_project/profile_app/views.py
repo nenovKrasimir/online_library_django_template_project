@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 
-from online_library_django_template_project.profile_app.forms import CreateUserForm
+from online_library_django_template_project.profile_app.forms import CreateUserForm, EditUserForm
 from online_library_django_template_project.profile_app.models import UserProfile
 
 
@@ -22,13 +22,13 @@ class ProfileDetailView(View):
 class ProfileEditView(View):
     def get(self, request):
         profile = UserProfile.objects.first()
-        form = CreateUserForm(instance=profile)
+        form = EditUserForm(instance=profile)
         context = {'profile': profile, 'form': form}
         return render(request=request, template_name='edit-profile.html', context=context)
 
     def post(self, request):
         profile = UserProfile.objects.first()
-        form = CreateUserForm(request.POST, request.FILES, instance=profile)
+        form = EditUserForm(request.POST, request.FILES, instance=profile)
 
         if form.is_valid():
             form.save()

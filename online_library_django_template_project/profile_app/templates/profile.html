@@ -3,7 +3,9 @@
         <section id="profile-page" class="details">
             <div class="profile-information">
                 <h3>{{ profile.first_name }} {{ profile.last_name }}</h3>
+                {% if profile.image %}
                 <p class="img"><img src="{{ profile.image.url }}" alt=""></p>
+                {% endif %}
                 <div class="actions">
                     <a class="button" href="{% url 'edit-profile' %}">Edit</a>
                     <a class="button" href="{% url 'delete-profile' %}">Delete</a>
