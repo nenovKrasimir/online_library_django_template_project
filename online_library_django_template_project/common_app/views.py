@@ -41,3 +41,8 @@ def login_page(request):
         form = AuthenticationForm()
 
     return render(request, 'login-page.html', {'form': form})
+
+
+def logout_page(request):
+    logout(request)
+    return redirect('home-page')

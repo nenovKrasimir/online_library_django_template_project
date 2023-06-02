@@ -1,16 +1,7 @@
-from django.contrib.auth.models import User
-from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, UpdateView, DeleteView
 
-from online_library_django_template_project.profile_app.forms import CreateUserForm, EditUserForm
-from online_library_django_template_project.profile_app.models import UserProfile
-
-# Create your views here.
-from django.shortcuts import render, redirect
-from django.views import View
-
-from online_library_django_template_project.profile_app.forms import CreateUserForm
+from online_library_django_template_project.profile_app.forms import EditUserForm
 from online_library_django_template_project.profile_app.models import UserProfile
 
 
