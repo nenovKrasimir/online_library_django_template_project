@@ -4,9 +4,11 @@ from django.db import models
 
 # Create your models here.
 class UserProfile(models.Model):
+    MAX_NAME_LENGTH = 30
+
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
+    first_name = models.CharField(max_length=MAX_NAME_LENGTH)
+    last_name = models.CharField(max_length=MAX_NAME_LENGTH)
     image = models.ImageField(upload_to='images/')
 
     def __str__(self):
