@@ -28,3 +28,15 @@ class EditUserForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = "__all__"
+        exclude = ['user']
+
+
+class DeleteUserForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        exclude = []
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs['disabled'] = 'disabled'

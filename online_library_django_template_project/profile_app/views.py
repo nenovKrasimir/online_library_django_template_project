@@ -1,7 +1,7 @@
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, UpdateView, DeleteView
 
-from online_library_django_template_project.profile_app.forms import EditUserForm
+from online_library_django_template_project.profile_app.forms import EditUserForm, DeleteUserForm
 from online_library_django_template_project.profile_app.models import UserProfile
 
 
@@ -27,13 +27,12 @@ class ProfileDeleteView(DeleteView):
     model = UserProfile
     template_name = 'delete-profile.html'
     success_url = reverse_lazy('home-page')
+    form_class = DeleteUserForm
 
     def get_object(self, queryset=None):
         return self.request.user
 
-    def get(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        form = EditUserForm(instance=self.request.user.userprofile)
-        for field in form.fields.values():
-            field.widget.attrs['disabled'] = 'disabled'
-        return self.render_to_response(self.get_context_data(form=form))
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['instance'] = self.get_object().userprofile
+        return kwargs
