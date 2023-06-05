@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from online_library_django_template_project.profile_app.forms import CreateUserForm
 
 
@@ -19,7 +19,7 @@ def register_page(request):
     context = {'form': form}
 
     if request.method == "POST":
-        form = CreateUserForm(request.POST, request.FILES)
+        form = CreateUserForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect('login-page')

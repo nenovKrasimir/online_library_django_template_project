@@ -1,4 +1,6 @@
 from django import forms
+from django.core.exceptions import ValidationError
+
 from .models import UserProfile
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
@@ -22,6 +24,16 @@ class CreateUserForm(UserCreationForm):
             user.save()
             UserProfile.objects.create(user=user, first_name=user.username)  # Create a UserProfile for the user
         return user
+
+    def clean_password2(self):
+        password1 = self.cleaned_data.get("password1")
+        password2 = self.cleaned_data.get("password2")
+        if password1 and password2 and password1 != password2:
+            raise ValidationError(
+                "Passwords do not match.",
+                code="password_mismatch",
+            )
+        return password2
 
 
 class EditUserForm(forms.ModelForm):
