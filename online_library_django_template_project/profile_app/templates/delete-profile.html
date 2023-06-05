@@ -1,11 +1,15 @@
 {% extends 'home-page.html' %}
+{% load filters %}
 {% block content %}
         <!-- Edit Profile Page -->
         <section id="edit-profile-page" class="edit">
             <form method="post" enctype="multipart/form-data">
                 <fieldset>
                     <legend>Delete Profile</legend>
-                    {{ form }}
+                    {% for field in form %}
+                        {{ field.label }}
+                        {{ field|Disabled_fields }}
+                    {% endfor %}
                     {% csrf_token %}
                     <input class="button submit" type="submit" value="Delete">
                 </fieldset>
