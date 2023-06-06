@@ -23,21 +23,6 @@ class ProfileEditView(UpdateView):
         return reverse_lazy('details-profile', kwargs={'pk': self.object.pk})
 
 
-# class ProfileDeleteView(DeleteView):
-#     model = UserProfile
-#     template_name = 'delete-profile.html'
-#     success_url = reverse_lazy('home-page')
-#     form_class = DeleteUserForm
-#
-#
-#     def get_object(self, queryset=None):
-#         return self.request.user
-#
-#     def get_form_kwargs(self):
-#         kwargs = super().get_form_kwargs()
-#         kwargs['instance'] = self.request.user.userprofile
-#         return kwargs
-
 class ProfileDeleteView(DeleteView):
     model = UserProfile
     template_name = 'delete-profile.html'
